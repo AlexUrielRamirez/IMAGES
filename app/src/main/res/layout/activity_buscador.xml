@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.Etiflex.Splash.BuscadorEPC.Buscador"
+    android:animateLayoutChanges="true">
+
+    <RelativeLayout
+        android:id="@+id/buscador_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/Buscador_progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:max="100"
+            android:progress="0"
+            android:rotation="90"
+            android:progressDrawable="@drawable/circle"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/txt_porcentaje_buscador"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="0%"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/black"
+            android:textSize="17.5sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/colored_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/menu_purple"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="BUSCAR ETIQUETA POR\nNÚMERO ÚNICO 'EPC'"
+        android:gravity="center_horizontal"
+        android:textSize="12.5dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_margin="15dp"
+        android:transitionName="number" />
+
+</RelativeLayout>

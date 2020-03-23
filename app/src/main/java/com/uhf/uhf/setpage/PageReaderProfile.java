@@ -10,24 +10,20 @@ import com.reader.helper.OperateTagBuffer;
 import com.reader.helper.ReaderHelper;
 import com.reader.helper.ReaderSetting;
 import com.uhf.uhf.LogList;
-import com.uhf.uhf.R;
 import com.uhf.uhf.UHFApplication;
 import com.uhf.uhf.R.id;
 import com.uhf.uhf.R.layout;
 import com.ui.base.BaseActivity;
 
-import android.R.integer;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 

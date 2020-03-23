@@ -10,8 +10,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_weight="1"
-    android:gravity="center_vertical"
-   >
+    android:gravity="center_vertical">
     <LinearLayout
 	    android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -28,7 +27,7 @@
         	android:layout_height="wrap_content"
         	android:gravity="center_vertical"
         	android:paddingLeft="2.9dip"
-        	android:text="@string/com_port"
+        	android:text="Puerto serial"
         	android:textColor="#ff222222"
         	android:textSize="12.0sp" />
 
@@ -79,7 +78,8 @@
 		android:paddingLeft="7.5sp"
 		android:paddingTop="3.7sp"
 		android:paddingRight="7.5sp"
-		android:paddingBottom="3.7sp" >
+		android:paddingBottom="3.7sp"
+		android:visibility="gone">
 		
 		<TextView
 			android:layout_width="wrap_content"
@@ -136,11 +136,10 @@
 	</LinearLayout>
 	</LinearLayout>
     <LinearLayout 
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
+       	android:layout_width="match_parent"
+       	android:layout_height="wrap_content"
         android:orientation="vertical"
-         android:layout_weight="1"
-       >
+		android:layout_weight="1">
 	<TextView
 	    android:id="@+id/textview_connect"
 		android:layout_width="fill_parent"
@@ -153,7 +152,7 @@
 		android:paddingBottom="7.5sp"
 		android:gravity="center_horizontal"
 		android:background="@drawable/color_button_selector"
-		android:text="@string/connect"
+		android:text="Conectar"
 		android:textColor="#ff222222"
 		android:textStyle="bold"
 		android:textSize="15.0sp"

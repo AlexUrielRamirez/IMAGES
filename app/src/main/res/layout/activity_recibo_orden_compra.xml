@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.Etiflex.Splash.ROC.ReciboOrdenCompra"
+    android:animateLayoutChanges="true">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/rojo_etiflex"
+        app:titleTextColor="@android:color/white"/>
+
+    <RelativeLayout
+        android:id="@+id/panel_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+            <EditText
+                android:id="@+id/et_orden_compra"
+                android:layout_width="250dp"
+                android:layout_height="56dp"
+                android:textSize="20dp"
+                android:hint="Orden Compra"
+                android:layout_centerInParent="true"
+                android:background="@drawable/card_white_round_corners_stroke_gray"
+                android:padding="7.5dp"
+                android:gravity="center_horizontal|center_vertical"/>
+            <TextView
+                android:id="@+id/btn_siguiente"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:visibility="gone"
+                android:background="@color/rojo_etiflex"
+                android:layout_alignParentBottom="true"
+                android:textColor="@android:color/white"
+                android:text="INICIAR"
+                android:textSize="20dp"
+                android:gravity="center_horizontal|center_vertical"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/panel_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:background="@android:color/white"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/progress" />
+        <RelativeLayout
+            android:id="@+id/panel_2_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Orden de Compra: "
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp"/>
+                    <TextView
+                        android:id="@+id/txt_orden_compra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12784"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ProgressBar
+                        android:id="@+id/pb_portal"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:max="100"
+                        android:progress="100"
+                        android:rotation="90"
+                        android:progressDrawable="@drawable/circle"
+                        android:layout_centerInParent="true"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/caja"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txt_estado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estado: Buscando..."
+                    android:layout_marginTop="20dp"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_portal_process"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminateDrawable="@drawable/progress"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -4,27 +4,23 @@ package com.uhf.uhf.setpage;
 import com.reader.base.CMD;
 import com.reader.base.ERROR;
 import com.reader.base.ReaderBase;
-import com.reader.base.StringTool;
 import com.reader.helper.ISO180006BOperateTagBuffer;
 import com.reader.helper.InventoryBuffer;
 import com.reader.helper.OperateTagBuffer;
 import com.reader.helper.ReaderHelper;
 import com.reader.helper.ReaderSetting;
 import com.uhf.uhf.LogList;
-import com.uhf.uhf.R;
 import com.uhf.uhf.UHFApplication;
 import com.uhf.uhf.R.id;
 import com.uhf.uhf.R.layout;
 import com.ui.base.BaseActivity;
 
-import android.R.integer;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,12 +62,13 @@ public class PageReaderOutPower extends BaseActivity {
 		
 		try {
 			mReaderHelper = ReaderHelper.getDefaultHelper();
+
 			mReader = mReaderHelper.getReader();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		m_curReaderSetting = mReaderHelper.getCurReaderSetting();
 		m_curInventoryBuffer = mReaderHelper.getCurInventoryBuffer();
 		m_curOperateTagBuffer = mReaderHelper.getCurOperateTagBuffer();

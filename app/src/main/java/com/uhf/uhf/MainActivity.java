@@ -10,10 +10,10 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,9 +24,9 @@ import android.widget.TextView;
 
 import com.com.tools.Beeper;
 import com.com.tools.ExcelUtils;
+import com.nativec.tools.ModuleManager;
 import com.reader.base.ERROR;
 import com.reader.base.ReaderBase;
-import com.reader.helper.ControlGPIO;
 import com.reader.helper.ISO180006BOperateTagBuffer;
 import com.reader.helper.InventoryBuffer;
 import com.reader.helper.OperateTagBuffer;
@@ -66,6 +66,8 @@ public class MainActivity extends BaseActivity {
     private static InventoryBuffer m_curInventoryBuffer;
     private static OperateTagBuffer m_curOperateTagBuffer;
     private static ISO180006BOperateTagBuffer m_curOperateTagISO18000Buffer;
+
+    public static int mSaveType = 0;
 
     //private Setting mViewSetting;
     //private Tag	mTag;
@@ -331,11 +333,13 @@ public class MainActivity extends BaseActivity {
                 title[0].setBackgroundResource(R.drawable.btn_select_background_select_right);
                 //title[0].setBackgroundColor(Color.rgb(0x00, 0xBB, 0xF7));
                 //title[1].setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
+                mSaveType = 0;
             } else {
                 title[1].setBackgroundResource(R.drawable.btn_select_background_select_left);
                 title[0].setBackgroundResource(R.drawable.btn_select_background_select_right_down);
                 //title[0].setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
                 //title[1].setBackgroundColor(Color.rgb(0x00, 0xBB, 0xF7));
+                mSaveType = 1;
             }
 
             title[1 - currIndex].setTextColor(Color.rgb(0x00, 0xBB, 0xF7));
@@ -354,15 +358,22 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-			/*if (!mLogList.tryClose())
-				askForOut();*/
             askForOut();
 
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
             return true;
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     private void askForOut() {
@@ -375,7 +386,7 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //close the module
-                                ControlGPIO.newInstance().JNIwriteGPIO(0);
+                                ModuleManager.newInstance().setUHFStatus(false);
                                 getApplication().onTerminate();
                             }
                         }).setNegativeButton(getString(R.string.cancel),
@@ -393,6 +404,7 @@ public class MainActivity extends BaseActivity {
     private void saveExcel() {
         DialogCustomed dialogCustomed = new DialogCustomed(this,R.layout.excel_save_dialog);
         dialogCustomed.setTags(m_curInventoryBuffer.lsTagList);
+        dialogCustomed.setOperationTags(m_curOperateTagBuffer.lsTagList);
         dialogCustomed.getDialog();
     }
 
@@ -402,7 +414,6 @@ public class MainActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-
 
     @Override
     protected void onDestroy() {

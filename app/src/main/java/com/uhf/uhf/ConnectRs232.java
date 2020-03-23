@@ -12,10 +12,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.reader.helper.ControlGPIO;
+import com.nativec.tools.ModuleManager;
+import com.nativec.tools.SerialPort;
+import com.nativec.tools.SerialPortFinder;
 import com.reader.helper.ReaderHelper;
-import com.uhf.uhf.serialport.SerialPort;
-import com.uhf.uhf.serialport.SerialPortFinder;
+import com.uhf.uhf.setpage.PageReaderOutPower;
 import com.uhf.uhf.spiner.AbstractSpinerAdapter.IOnItemSelectListener;
 import com.uhf.uhf.spiner.SpinerPopWindow;
 import com.ui.base.BaseActivity;
@@ -69,7 +70,6 @@ public class ConnectRs232 extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.connect_rs232);
-		
 		((UHFApplication) getApplication()).addActivity(this);
 		
 		mSerialPortFinder = new SerialPortFinder();
@@ -144,11 +144,15 @@ public class ConnectRs232 extends BaseActivity {
 						
 						return ;
 					}
-					
+					if (!ModuleManager.newInstance().setUHFStatus(true)) {
+						throw new RuntimeException("UHF RFID power on failure,may you open in other" +
+								" Process and do not exit it");
+					}
+
 					Intent intent;
-					intent = new Intent().setClass(ConnectRs232.this, MainActivity.class);
+					//intent = new Intent().setClass(ConnectRs232.this, MainActivity.class);
+					intent = new Intent().setClass(ConnectRs232.this, PageReaderOutPower.class);
 					startActivity(intent);
-					ControlGPIO.newInstance().JNIwriteGPIO(1);
 					//finish();
 				} catch (SecurityException e) {
 					Toast.makeText(
@@ -199,12 +203,12 @@ public class ConnectRs232 extends BaseActivity {
 			String value = mPortList.get(pos);
 			mPortTextView.setText(value);
 			mPosPort = pos;
+
 		}
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			
 			finish();
 
 			return true;

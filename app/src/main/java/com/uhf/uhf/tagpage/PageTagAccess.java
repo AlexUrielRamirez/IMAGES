@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -491,7 +491,6 @@ public class PageTagAccess extends LinearLayout {
 	
 	public void doDestroy() {
 		// TODO Auto-generated method stub
-
 		if (lbm != null)
 			lbm.unregisterReceiver(mRecv);
 	}

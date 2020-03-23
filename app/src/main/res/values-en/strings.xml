@@ -7,7 +7,7 @@
     <drawable name="list_normal">#00000000</drawable>
     <drawable name="list_pressed">#FF333333</drawable>
 
-    <string name="app_name">UHFDemo</string>
+    <string name="app_name">EtiflexRFID</string>
     <string name="menu_settings">Settings</string>
 
     <!--new adds data-->
@@ -24,6 +24,7 @@
     <string name="lock_success">Lock success</string>
     <string name="already_lock">Already lock</string>
     <string name="can_not_lock">Can not lock</string>
+    <string name="tag_inventory_time">Tag inventory time</string>
     
     <!--  error discreption-->
     <string name="command_succeeded">Command succesed.</string>

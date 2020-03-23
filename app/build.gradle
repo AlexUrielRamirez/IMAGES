@@ -1,18 +1,22 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.antfortune.freeline'
+//apply plugin: 'com.antfortune.freeline'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 29
     defaultConfig {
-        applicationId "com.uhf.uhf"
-        minSdkVersion 19
-        targetSdkVersion 24
+        applicationId "com.etiflex.rfid"
+        minSdkVersion 23
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        setProperty("archivesBaseName","UHFDemoN")
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        setProperty("archivesBaseName", "UHFDemoN")
         multiDexEnabled true
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
     }
     buildTypes {
         release {
@@ -24,14 +28,37 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    testCompile 'junit:junit:4.12'
-    compile files('src/main/libs/jxl.jar')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.airbnb.android:lottie:3.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    testImplementation 'junit:junit:4.12'
+    implementation files('src/main/libs/jxl.jar')
+    implementation files('src/main/libs/Serialport-module.jar')
+    implementation files('src/main/libs/RFID.jar')
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    implementation files('libs/cpdetector_1.0.10.jar')
+    implementation files('libs/chardet-1.0.jar')
+    implementation files('libs/antlr-2.7.4.jar')
+    implementation files('libs/jargs-1.0.jar')
+    implementation files('libs/juniversalchardet-1.0.3.jar')
 }

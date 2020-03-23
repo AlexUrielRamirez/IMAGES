@@ -1,7 +1,17 @@
 <resources>
-    <!-- Base application theme. -->
-    <!-- Some styles you can not reference but in style -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
     <style name="MyDialog" parent="android:Theme.Dialog">
         <item name="android:height">100dp</item>
     </style>
+
+    <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

@@ -3,9 +3,10 @@ package com.com.tools;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 
 import com.reader.helper.InventoryBuffer;
+import com.reader.helper.OperateTagBuffer;
 import com.uhf.uhf.R;
 import com.uhf.uhf.UHFApplication;
 
@@ -14,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,15 @@ public class ExcelUtils {
 
     private final static String[] mContent = new String[]{"ID", "EPC", "PC",
             UHFApplication.getContext().getResources().getString(R.string.real_list_times),
-            "RSSI",UHFApplication.getContext().getString(R.string.real_list_freq)};
+            "RSSI",UHFApplication.getContext().getString(R.string.real_list_freq),
+    UHFApplication.getContext().getString(R.string.tag_inventory_time)};
+
+    private final static String[] mOperateData = new String[] {
+           "ID","PC","CRC","EPC",UHFApplication.getContext().getString(R.string.data),
+            UHFApplication.getContext().getString(R.string.data_length),
+            UHFApplication.getContext().getString(R.string.list_antenna_port),
+            UHFApplication.getContext().getString(R.string.access_list_times)
+    };
 
     private final static String FILE_SUFFIX = ".xls";
 
@@ -110,6 +120,12 @@ public class ExcelUtils {
 
     }
 
+    public static void writeOperateTagToExcel (String fileName, List<OperateTagBuffer.OperateTagMap> maps) {
+        fileName = fileName.trim() + FILE_SUFFIX;
+        initExcel(fileName,mOperateData);
+        writeOperateTagListToExcel(maps,fileName);
+    }
+
     public static void writeTagToExcel(String fileName, List<InventoryBuffer.InventoryTagMap> maps) {
 
         fileName = fileName.trim() + FILE_SUFFIX;
@@ -138,8 +154,62 @@ public class ExcelUtils {
                     list.add(map.strEPC);
                     list.add(map.strPC);
                     list.add(map.nReadCount + "");
-                    list.add(map.strRSSI);
+                    list.add((Integer.parseInt(map.strRSSI) - 129) + "dBm");
                     list.add(map.strFreq);
+                    list.add(new SimpleDateFormat("yyyy/MM/dd").format(map.mDate) + " " + new SimpleDateFormat("kk:mm:ss").format(map.mDate));
+                    for (int i = 0; i < list.size(); i++) {
+                        sheet.addCell(new Label(i, j + 1, list.get(i),
+                                arial12format));
+                    }
+                }
+                writebook.write();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (writebook != null) {
+                    try {
+                        writebook.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> void writeOperateTagListToExcel(List<T> objList, String fileName) {
+        if (objList != null && objList.size() > 0) {
+            WritableWorkbook writebook = null;
+            InputStream in = null;
+            try {
+                WorkbookSettings setEncode = new WorkbookSettings();
+                setEncode.setEncoding(UTF8_ENCODING);
+                in = new FileInputStream(new File(fileName));
+                Workbook workbook = Workbook.getWorkbook(in);
+                writebook = Workbook.createWorkbook(new File(fileName),
+                        workbook);
+                WritableSheet sheet = writebook.getSheet(0);
+                for (int j = 0; j < objList.size(); j++) {
+                    ArrayList<String> list = new ArrayList<String>();
+                    OperateTagBuffer.OperateTagMap map = ((OperateTagBuffer.OperateTagMap)(objList.get(j)));
+                    list.add(j + 1 + "");
+                    list.add(map.strPC);
+                    list.add(map.strCRC);
+                    list.add(map.strEPC);
+                    list.add(map.strData);
+                    list.add(map.nDataLen + "");
+                    list.add(map.btAntId + "");
+                    list.add(map.nReadCount + "");
                     for (int i = 0; i < list.size(); i++) {
                         sheet.addCell(new Label(i, j + 1, list.get(i),
                                 arial12format));

@@ -39,6 +39,9 @@ public class InventoryBuffer {
 		public int nAnt3;
 		/** work antenna 4*/
 		public int nAnt4;
+
+		/** Inventory tag least time*/
+		public Date mDate;
 		
 		/**
 		 * Defaulted constructor
@@ -55,6 +58,7 @@ public class InventoryBuffer {
 			nAnt2 = 0;
 			nAnt3 = 0;
 			nAnt4 = 0;
+			mDate = new Date(System.currentTimeMillis());
 		}
     }
 

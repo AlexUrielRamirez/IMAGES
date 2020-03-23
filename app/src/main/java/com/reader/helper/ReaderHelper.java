@@ -2,10 +2,9 @@ package com.reader.helper;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
-import com.com.tools.Beeper;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.reader.base.CMD;
 import com.reader.base.ERROR;
 import com.reader.base.HEAD;
@@ -279,8 +278,6 @@ public class ReaderHelper {
         itent.putExtra("cmd", btCmd);
         mLocalBroadcastManager.sendBroadcast(itent);
     }
-
-    ;
 
     /**
      * Inventory(Fast Switch Antenna Mode)，Tag data refresh.
@@ -975,7 +972,7 @@ public class ReaderHelper {
 
             refreshInventory(btCmd, m_curInventoryBuffer);
             writeLog(strCmd, ERROR.SUCCESS);
-            Beeper.beep(Beeper.BEEPER);
+            //Beeper.beep(Beeper.BEEPER);
 
             runLoopInventroy();
             return;
@@ -1171,7 +1168,7 @@ public class ReaderHelper {
                     * 256 + (btAryData[4] & 0xFF) * 256 * 256
                     + (btAryData[5] & 0xFF) * 256 + (btAryData[6] & 0xFF);
             writeLog(strCmd, ERROR.SUCCESS);
-            Beeper.beep(Beeper.BEEPER);
+            //Beeper.beep(Beeper.BEEPER);
             refreshInventoryReal(INVENTORY_END, m_curInventoryBuffer);
             runLoopInventroy();
         } else {
@@ -1204,6 +1201,7 @@ public class ReaderHelper {
                 tag.strRSSI = strRSSI;
                 tag.nReadCount = 1;
                 tag.strFreq = strFreq;
+                tag.mDate = new Date(System.currentTimeMillis());
                 m_curInventoryBuffer.lsTagList.add(tag);
                 m_curInventoryBuffer.dtIndexMap.put(strEPC,
                         m_curInventoryBuffer.lsTagList.size() - 1);
@@ -1212,11 +1210,12 @@ public class ReaderHelper {
                 tag.strRSSI = strRSSI;
                 tag.nReadCount++;
                 tag.strFreq = strFreq;
+                tag.mDate = new Date(System.currentTimeMillis());
             }
 
             m_curInventoryBuffer.dtEndInventory = new Date();
             refreshInventoryReal(btCmd, m_curInventoryBuffer);
-            Beeper.beep(Beeper.BEEPER_SHORT);
+            //Beeper.beep(Beeper.BEEPER_SHORT);
         }
     }
 
@@ -1291,6 +1290,8 @@ public class ReaderHelper {
                 tag.nAnt3 = 0;
                 tag.nAnt4 = 0;
 
+                tag.mDate = new Date(System.currentTimeMillis());
+
                 switch (btAntId) {
                     case 0x01:
                         tag.nAnt1 = 1;
@@ -1314,8 +1315,8 @@ public class ReaderHelper {
                 tag = m_curInventoryBuffer.lsTagList.get(findIndex);
                 tag.strRSSI = strRSSI;
                 tag.nReadCount++;
-                ;
                 tag.strFreq = strFreq;
+                tag.mDate = new Date(System.currentTimeMillis());
                 switch (btAntId) {
                     case 0x01:
                         tag.nAnt1++;
@@ -1589,6 +1590,7 @@ public class ReaderHelper {
             tag.btAntId = btAntId;
             tag.strRSSI = strRSSI;
             tag.nReadCount = nReadCount;
+            tag.mDate = new Date(System.currentTimeMillis());
             m_curInventoryBuffer.lsTagList.add(tag);
             m_curInventoryBuffer.dtIndexMap.put(strEPC,
                     m_curInventoryBuffer.lsTagList.size() - 1);
@@ -1783,6 +1785,9 @@ public class ReaderHelper {
                 } else {
                     mReader.realTimeInventory(m_curReaderSetting.btReadId,
                             m_curInventoryBuffer.btRepeat);
+                    if (false) {
+
+                    }
 
                 }
             } else if (m_curInventoryBuffer.bLoopInventory) {

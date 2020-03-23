@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
+import android.os.Message;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -225,6 +226,14 @@ public class PageInventoryReal extends LinearLayout {
 					R.string.start_inventory));
 		}
 	}
+
+	private Handler mUpdateViewHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			refreshText();
+			refreshList();
+		}
+	};
 
 	private Handler mHandler = new Handler();
 	private Runnable mRefreshRunnable = new Runnable() {
@@ -460,8 +469,7 @@ public class PageInventoryReal extends LinearLayout {
 					// add by lei.li 2016/11/04
 					// refreshStartStop(true);
 					// add by lei.li 2016/11/04
-					// Log.e("zhebian", "?????????????????????????????");
-
+					// Log.e("zhebian", "?????????????????????????????")
 					// add by lei.li 2016/11/14
 					if (!DEBUG) {
 						if (!mReaderHelper.getInventoryFlag()) {
@@ -478,8 +486,9 @@ public class PageInventoryReal extends LinearLayout {
 							}
 						}
 					}
+					mUpdateViewHandler.sendEmptyMessage(0);
 					// add by lei.li 2016/11/14
-					refreshList();
+					//refreshList();
 					// add by lei.li 2016/11/14
 
 					mHandler.removeCallbacks(mRefreshRunnable);
@@ -487,16 +496,15 @@ public class PageInventoryReal extends LinearLayout {
 					// add by lei.li 2016/11/14
 					mLoopHandler.removeCallbacks(mLoopRunnable);
 					mLoopHandler.postDelayed(mLoopRunnable, 2000);
-					refreshText();
+					//refreshText();
 					break;
 				case ReaderHelper.INVENTORY_ERR:
 				case ReaderHelper.INVENTORY_ERR_END:
 				case ReaderHelper.INVENTORY_END:
 					// add by lei.li have some problem why it was annotation
 					// refreshList();
-					refreshList();
+					//refreshList();
 					// add by lei.li
-
 					// add by lei.li 2016/11/
 					if (mReaderHelper.getInventoryFlag() /* || bTmpInventoryFlag */) {
 						mLoopHandler.removeCallbacks(mLoopRunnable);
@@ -513,7 +521,8 @@ public class PageInventoryReal extends LinearLayout {
 					// refreshStartStop(false);
 					// end_add by lei.li 2016/11/04
 					// start_add by lei.li 2016/11/04
-					refreshText(); // fixed by lei.li 2016/11/04
+					//refreshText(); // fixed by lei.li 2016/11/04
+					mUpdateViewHandler.sendEmptyMessage(0);
 					break;
 				}
 

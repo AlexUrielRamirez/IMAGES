@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -84,22 +84,23 @@ public class PageReaderBeeper extends BaseActivity {
 				switch (mGroupBeeper.getCheckedRadioButtonId()) {
 				case id.set_beeper_quiet:
 					btMode = 0;
-					beepMode = Beeper.BeepMode.QUITE;
+					//beepMode = Beeper.BeepMode.QUITE;
 					break;
 				case id.set_beeper_all:
 					btMode = 1;
-					beepMode = Beeper.BeepMode.BEEP_INVENTORIED;
+					//beepMode = Beeper.BeepMode.BEEP_INVENTORIED;
 					break;
 				case id.set_beeper_one:
 					btMode = 2;
-					beepMode = Beeper.BeepMode.BEEP_PER_TAG;
+					//beepMode = Beeper.BeepMode.BEEP_PER_TAG;
 					break;
 				default:
-					beepMode = Beeper.BeepMode.BEEP_INVENTORIED;
+					//beepMode = Beeper.BeepMode.BEEP_INVENTORIED;
+                    btMode = 1;
 					break;
 				}
-				Beeper.setBeepMode(beepMode);
-				//mReader.setBeeperMode(m_curReaderSetting.btReadId, btMode);
+				//Beeper.setBeepMode(beepMode);
+				mReader.setBeeperMode(m_curReaderSetting.btReadId, btMode);
 				m_curReaderSetting.btBeeperMode = btMode;
 			}
 		});
@@ -119,7 +120,7 @@ public class PageReaderBeeper extends BaseActivity {
 			mGroupBeeper.check(id.set_beeper_quiet);
 		} else if (m_curReaderSetting.btBeeperMode == 1) {
 			mGroupBeeper.check(id.set_beeper_all);
-		} else if (m_curReaderSetting.btBeeperMode == 2) {
+		} else if (m_curReaderSetting.btBeeperMode == +2) {
 			mGroupBeeper.check(id.set_beeper_one);
 		}
 	}
@@ -138,7 +139,6 @@ public class PageReaderBeeper extends BaseActivity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (mLogList.tryClose()) return true;
 		}
-
 		return super.onKeyDown(keyCode, event);
 	}
 	
