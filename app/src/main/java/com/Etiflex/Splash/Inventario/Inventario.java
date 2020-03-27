@@ -1,26 +1,25 @@
 package com.Etiflex.Splash.Inventario;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.Etiflex.Splash.ConnectorManager;
 import com.Etiflex.Splash.Methods;
 import com.Etiflex.Splash.ROC.ModelInventory;
 import com.Etiflex.Splash.ROC.RetrofitInterfaces.askOrdenCompra;
@@ -29,6 +28,8 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.zxing.Result;
+import com.rfid.rxobserver.RXObserver;
+import com.rfid.rxobserver.bean.RXInventoryTag;
 import com.uhf.uhf.R;
 
 import org.json.JSONArray;
@@ -47,6 +48,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static com.Etiflex.Splash.GlobalPreferences.URL;
+import static com.Etiflex.Splash.GlobalPreferences.main_list;
+import static com.Etiflex.Splash.GlobalPreferences.tag_list;
 
 public class Inventario extends AppCompatActivity implements ZXingScannerView.ResultHandler{
 
@@ -61,14 +64,25 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
 
     private TextView btn_almacen_1, btn_almacen_2, btn_almacen_3, btn_almacen_4;
 
-    private RelativeLayout LoadingPanel;
+    private RelativeLayout LoadingPanel,c_view;
 
-    private ArrayList<ModelInventory> main_list;
+
     private ModelInventory model;
 
     private LinearLayout InventoryLayout;
 
     private ZXingScannerView mScannerView;
+
+    private TextView txt_status;
+    public static TextView txt_contador;
+    public static ProgressBar pb_contador;
+    private RecyclerView recyclerView;
+
+    private ProgressDialog ProgressDialog;
+
+    public static rv_adapter adapter;
+
+    private boolean READY = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +122,25 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
 
         InventoryLayout = findViewById(R.id.inventory_layout);
 
-        RelativeLayout c_view = findViewById(R.id.view_panel);
+        c_view = findViewById(R.id.view_panel);
 
         findViewById(R.id.btn_qr).setOnClickListener(v->{
             mScannerView = new ZXingScannerView(this);
-            // Register ourselves as a handler for scan results.
             mScannerView.setResultHandler(this);
-            // Start camera on resume
             mScannerView.startCamera();
             c_view.addView(mScannerView);
         });
+
+        txt_status = findViewById(R.id.txt_scanner_status);
+        pb_contador = findViewById(R.id.pb_inventario);
+        txt_contador = findViewById(R.id.txt_contador);
+        recyclerView = findViewById(R.id.Recycler_inventario);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
+
+        ProgressDialog = new ProgressDialog(this);
+        ProgressDialog.setMessage("Procesando datos, por favor espere...");
+        ProgressDialog.setCancelable(false);
 
     }
 
@@ -140,7 +163,7 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
                         String a = new BufferedReader(new InputStreamReader(response.getBody().in())).readLine();
                         if(a.equals("succes")){
                             txt_cargando.setText("Iniciando Conexión");
-                            new Handler().postDelayed(() -> Succes_updateUI(), 1500);
+                            new Handler().postDelayed(() -> Succes_updateUI(), 500);
                             et_ordencompra.setEnabled(true);
                         }else{
                             et_ordencompra.setEnabled(true);
@@ -190,7 +213,7 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
                             InventoryLayout.setVisibility(View.VISIBLE);
                             new Splash().CambiarColorStatusBar(Inventario.this, R.color.rojo_etiflex);
                             findViewById(R.id.inventario_root_layout).setVisibility(View.GONE);
-
+                            DescargarInformacion(Inventario.this);
                         }, 900);
                     },100);
                 },100);
@@ -213,28 +236,41 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
 
     private void DescargarInformacion(Context ctx) {
 
-        Volley.newRequestQueue(ctx).add(new JsonObjectRequest(Request.Method.GET, URL+"/getListaInventario.php?OC="+et_ordencompra.getText().toString(), null, response -> {
+        txt_status.setText("Estado: Esperando...");
+
+        Volley.newRequestQueue(ctx).add(new JsonObjectRequest(Request.Method.GET, URL+"/Inventario/getInventario.php?IdOrdenCompra="+et_ordencompra.getText().toString(), null, response -> {
             JSONArray json= response.optJSONArray("Data");
             main_list = new ArrayList<>();
+            tag_list = new ArrayList<>();
+
             try {
                 for(int i=0; i<json.length();i++){
                     model = new ModelInventory();
                     JSONObject jsonObject = null;
                     jsonObject = json.getJSONObject(i);
-                    model.setIdProducto(jsonObject.optString("IdEtiqueta"));
-                    model.setEPC(jsonObject.optString("IdEtiqueta"));
-                    model.setEAN(jsonObject.optString("IdEtiqueta"));
-                    model.setNombre(jsonObject.optString("IdEtiqueta"));
-                    model.setDescripcion(jsonObject.optString("IdEtiqueta"));
-                    model.setPrecio(jsonObject.optString("IdEtiqueta"));
-                    model.setAlmacen(jsonObject.optString("IdEtiqueta"));
-                    model.setCama(jsonObject.optString("IdEtiqueta"));
-                    model.setCaja(jsonObject.optString("IdEtiqueta"));
-                    model.setIdProvedor(jsonObject.optString("IdEtiqueta"));
+                    model.setIdProducto(jsonObject.optString("IdProducto"));
+                    model.setEPC(jsonObject.optString("EPC"));
+                    model.setEAN(jsonObject.optString("EAN"));
+                    model.setNombre(jsonObject.optString("Nombre"));
+                    model.setDescripcion(jsonObject.optString("Descripcion"));
+                    model.setPrecio(jsonObject.optString("Precio"));
+                    model.setAlmacen(jsonObject.optString("Almacen"));
+                    model.setCama(jsonObject.optString("Cama"));
+                    model.setCaja(jsonObject.optString("Caja"));
+                    model.setIdProveedor(jsonObject.optString("IdProveedor"));
+                    model.setRazonSocial(jsonObject.optString("RSocial"));
+                    model.setEstado("0");
 
                     main_list.add(model);
+                    tag_list.add(model.getEPC().replaceAll(" ",""));
 
                 }
+                pb_contador.setMax(main_list.size());
+                pb_contador.setProgress(0);
+                txt_contador.setText("0/"+main_list.size());
+                adapter = new rv_adapter(main_list);
+                recyclerView.setAdapter(adapter);
+                LoadingPanel.setVisibility(View.GONE);
             } catch (JSONException | NullPointerException e) {
                 Log.e("Validacion","JSON | Null Exception"+e);
             }
@@ -248,5 +284,27 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
     public void handleResult(Result result) {
         et_ordencompra.setText(result.getText());
         mScannerView.stopCamera();
+        c_view.removeAllViews();
+        BuscarOrdenCompra();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == 134){
+            //if(READY) {
+                txt_status.setText("Estado: Buscando...");
+                Intent i = new Intent(this, RXService.class);
+                startService(i);
+            //}
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == 134) {
+            txt_status.setText("Estado: Esperando...");
+            stopService(new Intent(this, RXService.class));
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }

@@ -1,6 +1,8 @@
 package com.Etiflex.Splash;
 
 import android.animation.Animator;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.view.View;
