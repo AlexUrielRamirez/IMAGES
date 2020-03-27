@@ -11,8 +11,9 @@ public class ModelInventory {
     private String Almacen;
     private String Cama;
     private String Caja;
-    private String IdProvedor;
+    private String IdProveedor;
     private String RazonSocial;
+    private String Estado;
 
     public String getRazonSocial() {
         return RazonSocial;
@@ -94,11 +95,19 @@ public class ModelInventory {
         Caja = caja;
     }
 
-    public String getIdProvedor() {
-        return IdProvedor;
+    public String getIdProveedor() {
+        return IdProveedor;
     }
 
-    public void setIdProvedor(String idProvedor) {
-        IdProvedor = idProvedor;
+    public void setIdProveedor(String idProveedor) {
+        IdProveedor = idProveedor;
+    }
+
+    public String getEstado() {
+        return Estado;
+    }
+
+    public void setEstado(String estado) {
+        Estado = estado;
     }
 }
