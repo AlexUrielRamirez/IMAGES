@@ -1,5 +1,6 @@
 package com.Etiflex.Splash.Inventario;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.Etiflex.Splash.ConnectorManager;
+import com.Etiflex.Splash.GlobalPreferences;
 import com.Etiflex.Splash.Methods;
 import com.Etiflex.Splash.ROC.ModelInventory;
 import com.Etiflex.Splash.ROC.RetrofitInterfaces.askOrdenCompra;
@@ -48,6 +50,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static com.Etiflex.Splash.GlobalPreferences.URL;
+import static com.Etiflex.Splash.GlobalPreferences.activity;
 import static com.Etiflex.Splash.GlobalPreferences.main_list;
 import static com.Etiflex.Splash.GlobalPreferences.tag_list;
 
@@ -84,9 +87,12 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
 
     private boolean READY = false;
 
+    private boolean SCANNING = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         overridePendingTransition(R.anim.do_not_move, R.anim.do_not_move);
         setContentView(R.layout.activity_inventario);
         initViews();
@@ -291,19 +297,40 @@ public class Inventario extends AppCompatActivity implements ZXingScannerView.Re
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == 134){
-            //if(READY) {
+            if(!SCANNING) {
+                GlobalPreferences.activity = this;
+                SCANNING = true;
                 txt_status.setText("Estado: Buscando...");
                 Intent i = new Intent(this, RXService.class);
                 startService(i);
-            //}
+            }
+
+            int cont =  main_list.size() - tag_list.size();
+
+            if(cont == main_list.size()){
+                new AlertDialog.Builder(Inventario.this)
+                        .setTitle("FINALIZAR")
+                        .setMessage("Se contabilizaron todos los productos, presione \"Aceptar\" para continuar.")
+                        .setPositiveButton("ACEPTAR", (dialog, which) -> {
+                            Inventario.this.startActivity(new Intent(Inventario.this, Inventario.class));
+                            stopService(new Intent(this, RXService.class));
+                            Inventario.this.finish();
+                        })
+                        .setIcon(android.R.drawable.ic_menu_add)
+                        .show();
+            }
+
         }
         return super.onKeyDown(keyCode, event);
     }
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if(keyCode == 134) {
-            txt_status.setText("Estado: Esperando...");
-            stopService(new Intent(this, RXService.class));
+            if(SCANNING){
+                SCANNING = false;
+                txt_status.setText("Estado: Esperando...");
+                stopService(new Intent(this, RXService.class));
+            }
         }
         return super.onKeyUp(keyCode, event);
     }

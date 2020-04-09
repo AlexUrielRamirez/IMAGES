@@ -34,6 +34,8 @@ public class ConnectorManager {
 
         }
 
+        PORT = "dev/ttyS4";
+
         if (connector.connectCom(PORT, 115200)) {
             ModuleManager.newInstance().setUHFStatus(true);
             try {

@@ -3,6 +3,7 @@ package com.Etiflex.Splash.ROC;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -49,6 +50,8 @@ public class ReciboOrdenCompra extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recibo_orden_compra);
+
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         new Splash().CambiarColorStatusBar(this,R.color.rojo_etiflex);
 
@@ -143,7 +146,7 @@ public class ReciboOrdenCompra extends AppCompatActivity {
                 ha.removeCallbacks(r);
                 txt_Estado.setText("Estado: Procesando");
                 pb_processo.setVisibility(View.VISIBLE);
-                new MatchingTask(receiver_list, main_list, pb_processo, txt_Estado).execute();
+                new MatchingTask(this,receiver_list, main_list, pb_processo, txt_Estado).execute();
                 IDLE = true;
             }).run();
 
