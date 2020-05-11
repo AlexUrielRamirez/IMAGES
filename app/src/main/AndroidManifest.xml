@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Etiflex IDEMO"
         tools:ignore="GoogleAppIndexingWarning">
         <service
             android:name="com.Etiflex.Splash.Inventario.RXService"

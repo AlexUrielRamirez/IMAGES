@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ETIFLEX.iml" filepath="$PROJECT_DIR$/ETIFLEX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IMAGES.iml" filepath="$PROJECT_DIR$/IMAGES.iml" group="IMAGES" />
+      <module fileurl="file://$PROJECT_DIR$/app/IMAGES-app.iml" filepath="$PROJECT_DIR$/app/IMAGES-app.iml" group="IMAGES/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
