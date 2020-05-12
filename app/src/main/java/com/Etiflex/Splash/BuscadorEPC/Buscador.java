@@ -38,11 +38,15 @@ public class Buscador extends AppCompatActivity {//implements BarCodeReader.Deco
     private TextView txt_progress;
     private RelativeLayout PurplePanel, ROOT;
 
+    private String EPC;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.do_not_move, R.anim.do_not_move);
         setContentView(R.layout.activity_buscador);
+
+        EPC = getIntent().getStringExtra("EPC");
 
         pb_potencia = findViewById(R.id.Buscador_progressBar);
         txt_progress = findViewById(R.id.txt_porcentaje_buscador);
@@ -107,7 +111,7 @@ public class Buscador extends AppCompatActivity {//implements BarCodeReader.Deco
         @Override
         protected void onInventoryTag(RXInventoryTag tag) {
 
-            if(tag.strEPC.equals("50 38 98 00 00 00 00 00 00 05 29 59")){
+            if(tag.strEPC.equals(EPC)){
                 pb_potencia.setProgress(Math.round(Float.parseFloat(tag.strRSSI)));
                 txt_progress.setText(String.valueOf(tag.strRSSI)+"%");
                 new Methods().PlayBeep_Short();

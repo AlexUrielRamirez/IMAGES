@@ -4,13 +4,41 @@
     android:layout_height="match_parent"
     tools:context="com.Etiflex.Splash.DEMO.Inventario">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_tags"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/Holder_btn_enviar"/>
+
+    <RelativeLayout
+        android:id="@+id/Holder_btn_enviar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@android:color/white"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/btn_background_blue"
+            android:elevation="2dp"
+            android:text="Continuar"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
+
     <TextView
+        android:id="@+id/PanelMEnsaje"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:text="Presione el gatillo para iniciar el escáner"
         android:gravity="center_vertical|center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="16.5sp"/>
+        android:textSize="16.5sp"
+        android:clickable="true"
+        android:visibility="visible"/>
 
 </RelativeLayout>

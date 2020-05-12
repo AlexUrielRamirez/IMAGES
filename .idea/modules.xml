@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-IMAGES.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-IMAGES.iml" group="IMAGES" />
+      <module fileurl="file://$PROJECT_DIR$/app/AndroidStudioProjects-IMAGES-app.iml" filepath="$PROJECT_DIR$/app/AndroidStudioProjects-IMAGES-app.iml" group="IMAGES/app" />
       <module fileurl="file://$PROJECT_DIR$/ETIFLEX.iml" filepath="$PROJECT_DIR$/ETIFLEX.iml" />
       <module fileurl="file://$PROJECT_DIR$/IMAGES.iml" filepath="$PROJECT_DIR$/IMAGES.iml" group="IMAGES" />
       <module fileurl="file://$PROJECT_DIR$/app/IMAGES-app.iml" filepath="$PROJECT_DIR$/app/IMAGES-app.iml" group="IMAGES/app" />

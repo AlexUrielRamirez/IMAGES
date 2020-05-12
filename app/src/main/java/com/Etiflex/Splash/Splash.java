@@ -46,6 +46,7 @@ public class Splash extends AppCompatActivity {
             switch (GlobalPreferences.DEVICE){
                 case "HORCA":
                     startActivity(new Intent(Splash.this, Principal.class));
+                    this.finish();
                     break;
                 case "SPIDER":
                     startActivity(new Intent(Splash.this, ReciboOrdenCompra.class));

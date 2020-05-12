@@ -1,6 +1,7 @@
 package com.Etiflex.Splash.Principal;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,6 +17,8 @@ import com.Etiflex.Splash.Methods;
 import com.rfid.rxobserver.RXObserver;
 import com.rfid.rxobserver.bean.RXInventoryTag;
 import com.uhf.uhf.R;
+
+import static com.Etiflex.Splash.DEMO.Inventario.PanelMensaje;
 
 public class Principal extends AppCompatActivity {
 
@@ -37,10 +40,6 @@ public class Principal extends AppCompatActivity {
         FragmentHolder = findViewById(R.id.FragmentHolder);
 
         findViewById(R.id.btn_inventario).setOnClickListener(v->{
-
-        });
-
-        findViewById(R.id.btn_buscar).setOnClickListener(v->{
             if(getSupportFragmentManager().findFragmentByTag("Inventario") == null)
                 getSupportFragmentManager().beginTransaction().replace(FragmentHolder.getId(), new Inventario(),"Inventario").commit();
 
@@ -48,6 +47,9 @@ public class Principal extends AppCompatActivity {
             FragmentHolder.setAnimation(animation);
             FragmentHolder.setVisibility(View.VISIBLE);
             animation.start();
+        });
+
+        findViewById(R.id.btn_buscar).setOnClickListener(v->{
 
         });
 
@@ -57,9 +59,12 @@ public class Principal extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == 134){
             if(FragmentHolder.getVisibility() == View.VISIBLE){
-                if(getSupportFragmentManager().findFragmentByTag("Inventario") != null){
                     new ConnectorManager().Connect(Inventario.rx);
-                }
+                    Inventario.rv_tags.getAdapter().notifyDataSetChanged();
+                    if(Inventario.tag_list.size() > 0){
+                        if(PanelMensaje.getVisibility() == View.VISIBLE)
+                            PanelMensaje.setVisibility(View.GONE);
+                    }
             }
         }
 
