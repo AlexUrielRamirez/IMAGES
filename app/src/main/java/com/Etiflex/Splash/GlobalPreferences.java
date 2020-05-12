@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class GlobalPreferences {
     public static String DEVICE;
-    public static String URL = "https://etiflexrfid.com/Etiflex/Android";
+    public static String URL = "https://etiflexrfid.com/IMAGES/Android";
 
     public static ArrayList<String> tag_list;
     public static ArrayList<ModelInventory> main_list;

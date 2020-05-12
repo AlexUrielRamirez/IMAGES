@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.Etiflex.Splash.Principal.Principal">
+    tools:context="com.Etiflex.Splash.Principal.Principal"
+    android:animateLayoutChanges="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,8 +38,83 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        android:visibility="gone">
+        android:visibility="gone"/>
 
-    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/Panel_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:animateLayoutChanges="true"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingrese el ID de la tienda"
+            android:layout_marginTop="50dp"
+            android:textColor="@android:color/black"
+            android:textSize="17.5sp"/>
+
+        <EditText
+            android:id="@+id/et_id_tienda"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="7.5dp"
+            android:paddingBottom="7.5dp"
+            android:hint="ID TIENDA"
+            android:gravity="center_horizontal"
+            android:background="@drawable/card_white_round_corners_stroke_gray"
+            android:layout_marginTop="35dp"
+            android:drawableStart="@drawable/tienda_azul"
+            android:paddingLeft="10dp"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+        <LinearLayout
+            android:id="@+id/Panel_1_panel_carga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="Buscando tienda, por favor espera..."/>
+
+
+            <ProgressBar
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/logo"
+                android:indeterminateDrawable="@drawable/progress" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_error_IDTienda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Error"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_continuar_panel_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_marginTop="20dp"
+            android:text="Continuar"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_buscar"/>
+    </LinearLayout>
 
 </RelativeLayout>

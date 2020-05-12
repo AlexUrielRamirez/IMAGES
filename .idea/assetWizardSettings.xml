@@ -136,7 +136,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_done_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_store_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -146,8 +146,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="00c22d" />
-                            <entry key="outputName" value="done_verde" />
+                            <entry key="color" value="1585fa" />
+                            <entry key="outputName" value="tienda_azul" />
                             <entry key="sourceFile" value="C:\Users\Integracion 2" />
                           </map>
                         </option>
