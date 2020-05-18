@@ -1,5 +1,6 @@
 package com.Etiflex.Splash.Principal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.Etiflex.Splash.ConnectorManager;
+import com.Etiflex.Splash.DEMO.Buscador.Buscador;
 import com.Etiflex.Splash.DEMO.Inventario;
 import com.Etiflex.Splash.GlobalPreferences;
 import com.Etiflex.Splash.Methods;
@@ -51,6 +53,8 @@ public class Principal extends AppCompatActivity {
     private EditText et_IdTienda;
     private Button btn_continuar_panel;
     private TextView txt_error_panel_1;
+
+    private JSONObject Data_Store = null;
 
     private interface AN_get_Store{
         @FormUrlEncoded
@@ -98,6 +102,8 @@ public class Principal extends AppCompatActivity {
                                     IdTienda = et_IdTienda.getText().toString();
                                     NombreTienda = json.getString("Nombre");
                                     DireccionTienda = json.getString("Dirección");
+                                    Data_Store = json;
+                                    Data_Store.put("IdTienda", IdTienda);
                                     Panel_1.setVisibility(View.GONE);
                                     RestorePanel_1();
                                     break;
@@ -134,7 +140,9 @@ public class Principal extends AppCompatActivity {
         });
 
         findViewById(R.id.btn_buscar).setOnClickListener(v->{
-
+            Intent i = new Intent(this, Buscador.class);
+            i.putExtra("DataStore", Data_Store.toString());
+            startActivity(i);
         });
 
     }

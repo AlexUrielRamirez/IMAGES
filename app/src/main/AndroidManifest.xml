@@ -16,13 +16,17 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Etiflex IDEMO"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name="com.Etiflex.Splash.DEMO.Buscador.Buscador"
+            android:theme="@style/Theme.AppCompat"/>
+
         <service
             android:name="com.Etiflex.Splash.Inventario.RXService"
-            android:exported="false"/>
+            android:exported="false" />
 
-        <activity android:name="com.Etiflex.Splash.Inventario.Inventario"
+        <activity
+            android:name="com.Etiflex.Splash.Inventario.Inventario"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            tools:ignore="InnerclassSeparator"/>
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name="com.Etiflex.Splash.ROC.ReciboOrdenCompra"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"

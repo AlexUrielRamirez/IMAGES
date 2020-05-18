@@ -56,38 +56,6 @@ public class Buscador extends AppCompatActivity {//implements BarCodeReader.Deco
         Beeper.release();
         Beeper.init(this);
 
-        if (savedInstanceState == null) {
-            PurplePanel.setVisibility(View.INVISIBLE);
-
-            ViewTreeObserver viewTreeObserver = PurplePanel.getViewTreeObserver();
-            if (viewTreeObserver.isAlive()) {
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        circularRevealActivity();
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                            PurplePanel.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        } else {
-                            PurplePanel.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
-                    }
-                });
-            }
-        }
-
-        /*int num = BarCodeReader.getNumberOfReaders();
-        bcr = BarCodeReader.open(num, getApplicationContext()); // Android 4.3 and above
-
-        bcr.setDecodeCallback(this);
-
-        bcr.setErrorCallback(this);
-
-        bcr.setParameter(765, 0); // For QC/MTK platforms
-        bcr.setParameter(764, 3);
-
-        bcr.setParameter(687, 4);
-        tg = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);*/
-
     }
 
     @Override
@@ -114,7 +82,7 @@ public class Buscador extends AppCompatActivity {//implements BarCodeReader.Deco
             if(tag.strEPC.equals(EPC)){
                 pb_potencia.setProgress(Math.round(Float.parseFloat(tag.strRSSI)));
                 txt_progress.setText(String.valueOf(tag.strRSSI)+"%");
-                new Methods().PlayBeep_Short();
+                Beeper.beep(Beeper.BEEPER_SHORT);
             }
 
         }
@@ -124,28 +92,6 @@ public class Buscador extends AppCompatActivity {//implements BarCodeReader.Deco
             ConnectorManager.mReader.realTimeInventory((byte) 0xff, (byte) 0x01);
         }
     };
-
-    private void circularRevealActivity() {
-
-        int cx = PurplePanel.getWidth() / 2;
-        int cy = PurplePanel.getHeight() / 2;
-
-        float finalRadius = Math.max(PurplePanel.getWidth(), PurplePanel.getHeight());
-        Animator circularReveal = ViewAnimationUtils.createCircularReveal(PurplePanel, cx, cy, 0, finalRadius);
-        circularReveal.setDuration(1000);
-        circularReveal.addListener(new Animator.AnimatorListener() {
-            @Override public void onAnimationStart(Animator animation) { }
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                ROOT.setVisibility(View.VISIBLE);
-                PurplePanel.setVisibility(View.GONE);
-            }
-            @Override public void onAnimationCancel(Animator animation) {}
-            @Override public void onAnimationRepeat(Animator animation) {}
-        });
-        PurplePanel.setVisibility(View.VISIBLE);
-        circularReveal.start();
-    }
 
     /*static final int STATE_IDLE = 0;
     static final int STATE_DECODE = 1;
